@@ -6,7 +6,7 @@
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/04 19:11:03 by yserkez           #+#    #+#             */
-/*   Updated: 2018/11/05 10:39:30 by yserkez          ###   ########.fr       */
+/*   Updated: 2018/11/05 11:15:00 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ typedef struct			s_piece
 	int					firstrow;
 }						t_piece;
 
-int	set_board(t_piece *pieces, int p, t_board *board, int boardsize, int shiftback);
+int	set_board(t_piece *pieces, int p, t_board *board, int *boardsize, int shiftback);
 int     get_next_line(const int fd, char **line);
 #endif

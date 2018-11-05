@@ -251,7 +251,9 @@ int		main(int argc, char **argv)
 {
 	t_board	board;
 	t_piece	*pieces;
+	int		boardsize;
 
+	boardsize = 2;
 	pieces =  (t_piece *)malloc(sizeof(t_piece) * 26);
 	init_board_pieces(&board, pieces);
 	if (argc != 2 || validate(argv[1], pieces, &board) == -1)
@@ -270,8 +272,8 @@ int		main(int argc, char **argv)
 	while (i++ < 6)
 		piece_resets(&pieces[i], 1);
 	//prntem(pieces);
-	set_board(pieces,0, &board, 4, 0);
-	//print_board(&pieces, &board);
+	set_board(pieces,0, &board, &boardsize, 0);
+	//print_board(&pieces, &board, boardsize);
 	i = 0;
 	while (board.bin_board[i])
 	{

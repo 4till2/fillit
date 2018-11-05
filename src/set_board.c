@@ -6,7 +6,7 @@
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/04 11:07:56 by yserkez           #+#    #+#             */
-/*   Updated: 2018/11/04 19:54:39 by yserkez          ###   ########.fr       */
+/*   Updated: 2018/11/05 11:13:51 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fillit.h"
@@ -103,21 +103,21 @@ int		set_piece(t_piece *piece,t_board  *board,int  boardsize)
 	return (-1);
 }
 
-int		set_board(t_piece *pieces, int p, t_board *board, int boardsize, int shiftback)
+int		set_board(t_piece *pieces, int p, t_board *board, int *boardsize, int shiftback)
 {
 	if (p > board->nbr_pieces + 1)
 		return (1);
 	if (shiftback) //last attemt of settng piece failed. Unset previous piece, shift, and re-set
 	{
 		if (p < 0) //cant fit first piece. start again with bigger board (room for increasing program speed by placing other conditionals here)
-			return (set_board(pieces, 0, board, ++boardsize, 0));
+			return (set_board(pieces, 0, board, &(*(++boardsize)), 0));
 		unset_piece(board, &pieces[p]);
-		if (piece_shift(&pieces[p], boardsize))
+		if (piece_shift(&pieces[p], *boardsize))
 				return (set_board(pieces, p, board, boardsize, 0));
 		else
 			return (set_board(pieces, --p, board, boardsize, 1));
 	}
-	else if (set_piece(&pieces[p], board, boardsize) == -1)	  // piece not set
+	else if (set_piece(&pieces[p], board, *boardsize) == -1)	  // piece not set
 		return (set_board(pieces, --p, board, boardsize, 1)); // replace the previous piece 
 	else
 		return (set_board(pieces, ++p, board, boardsize, 0)); //piece set move on to next piece
