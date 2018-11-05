@@ -9,37 +9,7 @@
 /*	 Updated: 2018/11/04 14:57:06 by ccodiga		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include "libft.h"
-
-int	get_next_line(const int fd, char **line);
-
-typedef struct			s_board
-{
-	char				**result;
-	unsigned long long	*bin_board;
-	int					nbr_pieces;
-	int					last_placed_piece;
-}						t_board;
-
-typedef struct			s_piece
-{
-	unsigned long long	*origin; //origin
-	unsigned long long	*placed; //placed
-	char				alph_piece;
-	int					piece_nbr;
-	int					row_placed;
-	int					firstrow;
-}						t_piece;
-
-
-void prntem(t_piece *pieces);
-
+#include "fillit.h"
 /* the loop of the set_pieces_to_left functiongoes through the array of pieces
  * and sets them to the upper left corner. It looks at each row and checks it
  * with "control", which is a long long with only one '1' bit at the left end.
@@ -247,6 +217,36 @@ void		prntem(t_piece *pieces)
 	}
 }
 
+void		prntplcd(t_piece *pieces)
+{
+	int i;
+
+	i = -1;
+	while (++i < 6)
+	{
+		printf("%i:  %llu",pieces[i].firstrow, pieces[i].placed[0]);
+		printf("\n");
+		printf("%llu", pieces[i].placed[1]);
+		printf("\n");
+		printf("%llu", pieces[i].placed[2]);
+		printf("\n");
+		printf("%llu", pieces[i].placed[3]);
+		printf("\n");
+		printf("\n");
+	}
+}
+
+int		piece_resets(t_piece *piece, int full)
+{
+	piece->placed[3] = piece->origin[3];
+	piece->placed[2] = piece->origin[2];
+	piece->placed[1] = piece->origin[1];
+	piece->placed[0] = piece->origin[0];
+	if (full == 1)
+		piece->firstrow = 0;
+	return (1);
+}	
+
 int		main(int argc, char **argv)
 {
 	t_board	board;
@@ -266,7 +266,16 @@ int		main(int argc, char **argv)
 		write(2, "error", 5);
 		return (-1);
 	}
+	int i = 0;
+	while (i++ < 6)
+		piece_resets(&pieces[i], 1);
 	//prntem(pieces);
-	//set_board(&pieces, &board);
+	set_board(pieces,0, &board, 4, 0);
 	//print_board(&pieces, &board);
+	i = 0;
+	while (board.bin_board[i])
+	{
+		printf("%s\n", ft_itoa_base(board.bin_board[i], 2));
+		++i;
+	}
 }
