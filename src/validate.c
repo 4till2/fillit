@@ -247,6 +247,42 @@ int		piece_resets(t_piece *piece, int full)
 	return (1);
 }	
 
+void	print_board(t_board *board, int boardsize)
+{
+	int	i;
+
+	i = -1;
+	while (++i < boardsize)
+		printf("%s", board.result[i])
+}
+
+
+void	get_alph_board(t_piece *pieces, it_board *boards, int boardsize)
+{
+	int	p;
+	int	k;
+	int h;
+	unsigned long long control;
+
+	p = -1;
+	while (++p <= board->nbr_pieces)
+	{
+		k = -1;
+		while (++k < 4)
+		{
+			h = -1;
+			control = 1 << 63;
+			while (++h < boardsize)
+			{
+				if ((pieces[p].placed[k] & control) == control)
+					board->result[pieces[p].firstrow + k][h] = pieces[p].alph_piece;
+				control = control >> 1;
+			}
+		}
+	}
+	print_board(t_board *board, int boardsize);
+}
+
 int		main(int argc, char **argv)
 {
 	t_board	board;
@@ -280,4 +316,6 @@ int		main(int argc, char **argv)
 		printf("%s\n", ft_itoa_base(board.bin_board[i], 2));
 		++i;
 	}
+	//set_board(&pieces, &board);
+	//print_board(pieces, &board);
 }
