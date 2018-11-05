@@ -33,6 +33,10 @@ void		set_piece_to_top(t_piece *pieces, int i)
 			pieces[i].origin[3] = 0;
 		}
 	}
+	j = 3;
+	while (pieces[i].origin[j] == 0)
+		--j;
+	pieces[i].lastrow = j;
 }
 
 void		set_pieces_to_left(t_piece *pieces, t_board *board)
@@ -236,14 +240,14 @@ void		prntplcd(t_piece *pieces)
 	}
 }
 
-int		piece_resets(t_piece *piece, int full)
+int		piece_resets(t_piece *piece)
 {
 	piece->placed[3] = piece->origin[3];
 	piece->placed[2] = piece->origin[2];
 	piece->placed[1] = piece->origin[1];
 	piece->placed[0] = piece->origin[0];
-	if (full == 1)
-		piece->firstrow = 0;
+	piece->firstrow = 0;
+	piece->lastrow = 0;
 	return (1);
 }	
 
@@ -253,11 +257,11 @@ void	print_board(t_board *board, int boardsize)
 
 	i = -1;
 	while (++i < boardsize)
-		printf("%s", board.result[i])
+		printf("%s\n", board->result[i]);
 }
 
 
-void	get_alph_board(t_piece *pieces, it_board *boards, int boardsize)
+void	get_alph_board(t_piece *pieces, t_board *board, int boardsize)
 {
 	int	p;
 	int	k;
@@ -271,7 +275,7 @@ void	get_alph_board(t_piece *pieces, it_board *boards, int boardsize)
 		while (++k < 4)
 		{
 			h = -1;
-			control = 1 << 63;
+			control = 1ULL << 63;
 			while (++h < boardsize)
 			{
 				if ((pieces[p].placed[k] & control) == control)
@@ -280,7 +284,7 @@ void	get_alph_board(t_piece *pieces, it_board *boards, int boardsize)
 			}
 		}
 	}
-	print_board(t_board *board, int boardsize);
+	print_board(board, boardsize);
 }
 
 int		main(int argc, char **argv)
@@ -289,7 +293,7 @@ int		main(int argc, char **argv)
 	t_piece	*pieces;
 	int		boardsize;
 
-	boardsize = 2;
+	boardsize = 4;
 	pieces =  (t_piece *)malloc(sizeof(t_piece) * 26);
 	init_board_pieces(&board, pieces);
 	if (argc != 2 || validate(argv[1], pieces, &board) == -1)
@@ -306,16 +310,11 @@ int		main(int argc, char **argv)
 	}
 	int i = 0;
 	while (i++ < 6)
-		piece_resets(&pieces[i], 1);
+		piece_resets(&pieces[i]);
 	//prntem(pieces);
 	set_board(pieces,0, &board, &boardsize, 0);
-	//print_board(&pieces, &board, boardsize);
-	i = 0;
-	while (board.bin_board[i])
-	{
-		printf("%s\n", ft_itoa_base(board.bin_board[i], 2));
-		++i;
-	}
+	get_alph_board(pieces, &board, boardsize);
+
 	//set_board(&pieces, &board);
 	//print_board(pieces, &board);
 }
