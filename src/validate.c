@@ -10,6 +10,7 @@
 /*																			  */
 /* ************************************************************************** */
 #include "fillit.h"
+
 /* the loop of the set_pieces_to_left functiongoes through the array of pieces
  * and sets them to the upper left corner. It looks at each row and checks it
  * with "control", which is a long long with only one '1' bit at the left end.
@@ -122,7 +123,7 @@ void		piece_to_binary(int count_columns, int count_rows, t_piece *pieces, t_boar
 	pieces[nbr].origin[row_piece] = pieces[nbr].origin[row_piece] ^ value;
 	if (pieces[nbr].alph_piece == 0)
 	{
-		while (((int)alph - 48) < nbr)
+		while (((int)alph - 65) < nbr)
 			alph++;
 		pieces[nbr].alph_piece = alph;
 	}
@@ -308,13 +309,11 @@ int		main(int argc, char **argv)
 		write(2, "error", 5);
 		return (-1);
 	}
-	int i = 0;
-	while (i++ < 6)
+	int i = -1;
+	while (++i < 6)
 		piece_resets(&pieces[i]);
 	//prntem(pieces);
 	set_board(pieces,0, &board, &boardsize, 0);
 	get_alph_board(pieces, &board, boardsize);
-
-	//set_board(&pieces, &board);
-	//print_board(pieces, &board);
+	printf("%i", boardsize);
 }

@@ -6,7 +6,7 @@
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/04 11:07:56 by yserkez           #+#    #+#             */
-/*   Updated: 2018/11/05 14:29:56 by yserkez          ###   ########.fr       */
+/*   Updated: 2018/11/05 15:02:00 by ccodiga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fillit.h"
@@ -34,10 +34,11 @@ int		unset_piece(t_board *board,t_piece *piece)
 	i = 0;
 	while (i < 4)
 	{
-printf("board before unset: %llu\n", board->bin_board[piece->firstrow + i]);
+//printf("board before unset: %llu\n", board->bin_board[piece->firstrow + i]);
+
 		board->bin_board[piece->firstrow + i] = board->bin_board[piece->firstrow + i] ^ piece->placed[i];
-printf("piece %llu\n", piece->placed[i]);
-printf("board after unset: %llu\n", board->bin_board[piece->firstrow + i]);
+//printf("piece %llu\n", piece->placed[i]);
+//printf("board after unset: %llu\n", board->bin_board[piece->firstrow + i]);
 		++i;
 	}
 	return (1); 
@@ -113,9 +114,9 @@ int		set_piece(t_piece *piece,t_board  *board,int  boardsize)
 int		set_board(t_piece *pieces, int p, t_board *board, int *boardsize, int shiftback)
 {
 static int calls;
-calls++;
-printf("pp %i\n",p);
-printf("callllls %i\n", calls);
+//calls++;
+//printf("pp %i\n",p);
+//printf("callllls %i\n", calls);
 	if (calls > 10000)
 		(*boardsize)++;
 	if (p > board->nbr_pieces + 1)
@@ -127,7 +128,7 @@ printf("callllls %i\n", calls);
 		if (p < 0) //cant fit first piece. start again with bigger board (room for increasing program speed by placing other conditionals here)
 		{
 			(*boardsize)++;
-printf("boardsize in stb %i\n",*boardsize);
+//printf("boardsize in stb %i\n",*boardsize);
 			return (set_board(pieces, 0, board, boardsize, 0));
 		}
 		unset_piece(board, &pieces[p]);
