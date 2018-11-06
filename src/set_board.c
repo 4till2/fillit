@@ -6,7 +6,7 @@
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/04 11:07:56 by yserkez           #+#    #+#             */
-/*   Updated: 2018/11/05 15:02:00 by ccodiga          ###   ########.fr       */
+/*   Updated: 2018/11/06 10:52:32 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fillit.h"
@@ -14,17 +14,6 @@
 unsigned long long		on_bit(unsigned long long p, int n)
 {
 	return((p >> (63 - n)) & 1);
-}
-
-int		piece_reset(t_piece *piece, int full)
-{
-	piece->placed[3] = piece->origin[3];
-	piece->placed[2] = piece->origin[2];
-	piece->placed[1] = piece->origin[1];
-	piece->placed[0] = piece->origin[0];
-	if (full == 1)
-		piece->firstrow = 0;
-	return (1);
 }
 
 int		unset_piece(t_board *board,t_piece *piece)
@@ -46,10 +35,10 @@ int		unset_piece(t_board *board,t_piece *piece)
 
 int		down_shift(t_piece *piece,int boardsize)
 {
-	if (piece->lastrow - 1  >= boardsize) //piece reached last row
+	if (piece->lastrow + 1  >= boardsize) //piece reached last row
 		return (-1);
-	piece->firstrow += 1;
-	piece->lastrow += 1;
+	piece->firstrow++;
+	piece->lastrow++;
 	return (1);
 }
 
@@ -128,7 +117,7 @@ static int calls;
 		if (p < 0) //cant fit first piece. start again with bigger board (room for increasing program speed by placing other conditionals here)
 		{
 			(*boardsize)++;
-//printf("boardsize in stb %i\n",*boardsize);
+printf("boardsize in stb %i\n",*boardsize);
 			return (set_board(pieces, 0, board, boardsize, 0));
 		}
 		unset_piece(board, &pieces[p]);
