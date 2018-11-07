@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 13:48:30 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 11:31:44 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/09/14 10:10:51 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/27 11:49:02 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*str;
+	char *ptr;
 
-	str = NULL;
+	ptr = NULL;
 	while (*s)
 	{
-		if (*s == c)
-			str = (char *)s;
-		s++;
+		if (*s == (char)c)
+			ptr = (char*)s;
+		++s;
 	}
-	if (*s == c)
-		return ((char *)s);
-	return (str);
+	if (ptr)
+		return (ptr);
+	if ((char)c == '\0')
+		return ((char*)s);
+	return (NULL);
 }

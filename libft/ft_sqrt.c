@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_sqr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 12:50:55 by yserkez           #+#    #+#             */
-/*   Updated: 2018/10/29 21:40:21 by yserkez          ###   ########.fr       */
+/*   Created: 2018/11/06 23:24:07 by yserkez           #+#    #+#             */
+/*   Updated: 2018/11/06 23:24:47 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int		ft_memcmp(const void *s1, const void *s2, size_t n)
+long long ft_sqrt(long long n)
 {
-	const unsigned char	*ptr1;
-	const unsigned char *ptr2;
-
-	if (n == 0)
-		return (0);
-	ptr1 = (unsigned char*)s1;
-	ptr2 = (unsigned char*)s2;
-	while (--n > 0 && *ptr1 == *ptr2)
-	{
-		ptr1++;
-		ptr2++;
-	}
-	return ((int)(*ptr1 - *ptr2));
+     long long low = 0;
+     long long high = n+1;
+     while (high - low > 1)
+     {
+           long long mid = (low+high)/2;
+           if (mid*mid <= n)
+                 low = mid;
+           else
+                 high = mid;
+     }
+     
+     return low;
 }

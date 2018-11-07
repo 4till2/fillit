@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 09:50:08 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 13:11:54 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/22 12:50:55 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 11:45:24 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
-	j = 0;
+	i = 0;
 	if (*needle == '\0')
-		return ((char *)haystack);
-	while (*haystack && j <= len)
+		return ((char*)haystack);
+	while (haystack[i] && i < n)
 	{
-		i = 0;
-		while (haystack[i] == needle[i] && haystack[i] && needle[i] && (i + j)
-			< len)
-			i++;
-		if (i == ft_strlen(needle))
-			return ((char *)haystack);
-		haystack++;
-		j++;
+		if (haystack[i] == needle[0])
+		{
+			j = 0;
+			while (needle[j] && haystack[i + j] && i + j < n)
+			{
+				if (haystack[i + j] == needle[j])
+					j++;
+				else
+					break ;
+			}
+			if (needle[j] == '\0')
+				return ((char*)&haystack[i]);
+		}
+		i++;
 	}
 	return (NULL);
 }

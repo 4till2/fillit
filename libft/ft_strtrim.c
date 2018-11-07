@@ -3,40 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 16:34:17 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 12:47:29 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/30 12:13:36 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 12:15:28 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s)
+static int	ft_len(char *s)
 {
-	int		len;
-	int		i;
-	char	*new;
+	int	size;
+	int	i;
 
+	i = -1;
+	size = ft_strlen((char*)s);
+	while (ft_iswhite(s[++i]))
+		size--;
+	if (size == 0)
+		return (0);
+	while (s[i])
+		i++;
+	while (ft_iswhite(s[--i]))
+		size--;
+	return (size);
+}
+
+char		*ft_strtrim(char const *s)
+{
+	char	*str;
+	int		i;
+	int		size;
+
+	if (!s)
+		return (NULL);
+	size = ft_len((char*)s);
 	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while ((*s == ' ' || *s == '\n' || *s == '\t') && *s)
-		s++;
-	if (!(*s))
-	{
-		new = ft_strdup("");
-		return (new);
-	}
-	len = ft_strlen(s);
-	len--;
-	while (s[len] && (s[len] == ' ' || s[len] == '\n' || s[len] == '\t'))
-		len--;
-	len++;
-	if (!(new = (char *)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	while (*s && len--)
-		new[i++] = *s++;
-	new[i] = '\0';
-	return (new);
+	while (ft_iswhite(s[i]))
+		i++;
+	str = ft_strsub(s, i, size);
+	return (str);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/12 13:54:52 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/09/17 11:22:47 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/09/14 09:33:52 by yserkez           #+#    #+#             */
+/*   Updated: 2018/09/14 15:09:00 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	unsigned long i;
+	size_t i;
 
 	i = 0;
-	while (src[i] && i < len)
+	while (src[i] != '\0' && i < len)
 	{
 		dst[i] = src[i];
 		i++;
 	}
 	while (i < len)
-		dst[i++] = '\0';
+	{
+		dst[i] = '\0';
+		i++;
+	}
 	return (dst);
 }

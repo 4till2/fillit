@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/23 17:02:26 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 13:07:16 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/22 12:50:55 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 11:50:32 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,25 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char	*ptr;
-	int		i;
-	int		ret;
+	size_t	i;
+	size_t	ret;
+	size_t	j;
 
-	((int)dstsize < 0) ? (dstsize = ft_strlen(dst) + ft_strlen(src) + 1) : (0);
-	((ft_strlen(src) + dstsize) < (ft_strlen(dst) + ft_strlen(src))) ? (ret =
-		ft_strlen(src) + dstsize) : (ret = ft_strlen(dst) + ft_strlen(src));
-	ptr = dst;
 	i = 0;
-	if (((int)dstsize - (int)ft_strlen(dst) - 1) > 0)
-		ft_strncat(dst, src, dstsize - ft_strlen(dst) - 1);
+	ret = 0;
+	j = 0;
+	if (dstsize < 1)
+		return (ft_strlen(dst));
+	while (dst[i])
+		++i;
+	while (src[ret])
+		++ret;
+	if (dstsize <= i)
+		ret += dstsize;
+	else
+		ret += i;
+	while (src[j] && (i < (dstsize - 1)))
+		dst[i++] = src[j++];
+	dst[i] = '\0';
 	return (ret);
 }
