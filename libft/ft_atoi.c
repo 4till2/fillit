@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 13:54:47 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 13:02:22 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/09/17 15:15:52 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 12:05:52 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int		ft_atoi(char *str)
 {
-	int			neg;
-	long long	number;
+	unsigned	int		i;
+	long				ret;
+	int					sign;
 
-	number = 0;
-	neg = 1;
-	while ((*str == '\t' || *str == '\n' || *str == '\f' || *str == '\v' ||
-		*str == '\r' || *str == ' ') && *str)
-		str++;
-	(*str == '-') ? (neg = -1) : (0);
-	(*str == '-' || *str == '+') ? (str++) : (0);
-	while (ft_isdigit(*str))
-	{
-		number += (*str - 48);
-		(ft_isdigit(*(str + 1))) ? (number *= 10) : (0);
-		str++;
-	}
-	return (neg * number);
+	i = 0;
+	ret = 0;
+	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
+			str[i] == '\v' || str[i] == '\f' ||
+			str[i] == '\f' || str[i] == '\r'))
+		i++;
+	sign = (str[i] == '-' ? -1 : 1);
+	if (str[i] == '-' || str[i] == '+')
+		++i;
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+		ret = (ret * 10 + (str[i++] - '0'));
+	return (ret * sign);
 }

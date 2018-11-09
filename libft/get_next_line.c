@@ -3,59 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/26 15:05:13 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/11/01 17:21:18 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/31 12:42:39 by yserkez           #+#    #+#             */
+/*   Updated: 2018/11/07 15:55:53 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "get_next_line.h"
-#include <string.h>
 
-int	copy_line(char **line, char **str, int eol, int ret)
+static int	add_next_line(char **statstr, char **line)
 {
-	int		j;
-	char	*hold;
+	char	*ptr;
 
-	j = 0;
-	*line = ft_strnew(eol + 2);
-	hold = *str;
-	while (**str != '\n' && **str != '\0')
-		(*line)[j++] = *(*str)++;
-	*str += (**str == '\n') ? (1) : (0);
-	*str = ft_strdup(*str);
-	free(hold);
-	ret += 0;
-	return (1);
+	if (ft_strchr(*statstr, '\n') != NULL)
+	{
+		ptr = *statstr;
+		*line = ft_strsub(*statstr, 0, ft_strchr(*statstr, '\n') - *statstr);
+		*statstr = ft_strdup(ft_strchr(*statstr, '\n') + 1);
+		free(ptr);
+		return (1);
+	}
+	else if (**statstr != '\0')
+	{
+		ptr = *statstr;
+		*line = ft_strdup(*statstr);
+		*statstr = ft_strdup("\0");
+		free(ptr);
+		return (1);
+	}
+	return (0);
 }
 
-int	get_next_line(const int fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-	char			buff[BUFF_SIZE + 1];
-	static char		*str[FD_LIMIT];
-	int				eol;
-	int				ret;
-	char			*hold;
+	char		*buf;
+	static char *statstr[54139];
+	int			red;
+	char		*ptr;
 
-	eol = 0;
-	hold = NULL;
-	if (fd < 0 || read(fd, &buff, 0) < 0)
+	if (fd < 0 || !line || BUFF_SIZE < 1)
 		return (-1);
-	while ((ret = read(fd, &buff, BUFF_SIZE)) > -1)
+	buf = ft_strnew(BUFF_SIZE);
+	while ((red = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		buff[ret] = '\0';
-		str[fd] = ft_strjoin(str[fd], buff);
-		if (hold != NULL)
-			free(hold);
-		hold = str[fd];
-		while (str[fd][eol] != '\n' && str[fd][eol] != '\0')
-			eol++;
-		if (str[fd][eol] == '\n' || (str[fd][0] != '\0' && ret != BUFF_SIZE))
-			return (copy_line(line, &str[fd], eol, ret));
-		if (ret == 0)
-			return (0);
+		if (!statstr[fd])
+			statstr[fd] = ft_strdup(buf);
+		else
+		{
+			ptr = statstr[fd];
+			statstr[fd] = ft_strjoin(statstr[fd], buf);
+			free(ptr);
+		}
+		ft_strclr(buf);
+		if (ft_strchr(statstr[fd], '\n'))
+			break ;
 	}
-	return (-1);
+	free(buf);
+	return (red < 0 ? (-1) : (add_next_line(&statstr[fd], line)));
 }

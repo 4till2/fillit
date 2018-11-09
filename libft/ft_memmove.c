@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   memmove.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/23 14:44:34 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 13:56:34 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/22 12:15:57 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 11:51:09 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char *ptr;
+	unsigned char		*ptr1;
+	const unsigned char	*ptr2;
+	size_t				i;
 
-	ptr = dst;
-	if (dst == src)
-		return (dst);
-	else if (dst > src)
+	ptr1 = (unsigned char*)dst;
+	ptr2 = (unsigned char*)src;
+	i = 0;
+	if (ptr2 < ptr1)
 	{
-		src += len - 1;
-		dst += len - 1;
-		while (len--)
-			*((unsigned char *)dst--) = *((unsigned char *)src--);
+		while (++i <= len)
+			ptr1[len - i] = ptr2[len - i];
 	}
 	else
 	{
-		while (len--)
-			*((unsigned char *)dst++) = *((unsigned char *)src++);
+		while (len-- > 0)
+			*(ptr1++) = *(ptr2++);
 	}
-	return (ptr);
+	return (dst);
 }

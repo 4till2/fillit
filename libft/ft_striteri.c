@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_striter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 15:18:24 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 13:11:16 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/23 21:36:49 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 11:46:54 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	long i;
+	int i;
 
-	i = -1;
-	if (s == NULL || f == NULL)
+	i = 0;
+	if (!s || !f)
 		return ;
-	while (s[++i])
-		(*f)((unsigned int)i, &s[i]);
+	while (s[i])
+	{
+		f(i, &s[i]);
+		i++;
+	}
 }

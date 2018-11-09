@@ -1,80 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   set_board.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/04 11:07:56 by yserkez           #+#    #+#             */
-/*   Updated: 2018/11/05 14:29:56 by yserkez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 #include "fillit.h"
 
-unsigned long long		on_bit(unsigned long long p, int n)
+unsigned long long	on_bit(unsigned long long p, int n)
 {
-	return((p >> (63 - n)) & 1);
+	return ((p >> (63 - n)) & 1);
 }
 
-int		piece_reset(t_piece *piece, int full)
-{
-	piece->placed[3] = piece->origin[3];
-	piece->placed[2] = piece->origin[2];
-	piece->placed[1] = piece->origin[1];
-	piece->placed[0] = piece->origin[0];
-	if (full == 1)
-		piece->firstrow = 0;
-	return (1);
-}
-
-int		unset_piece(t_board *board,t_piece *piece)
+int					unset_piece(t_board *board, t_piece *piece)
 {
 	int i;
 
-	i = 0;
-	while (i < 4)
-	{
-printf("board before unset: %llu\n", board->bin_board[piece->firstrow + i]);
-		board->bin_board[piece->firstrow + i] = board->bin_board[piece->firstrow + i] ^ piece->placed[i];
-printf("piece %llu\n", piece->placed[i]);
-printf("board after unset: %llu\n", board->bin_board[piece->firstrow + i]);
-		++i;
-	}
-	return (1); 
-}
-
-int		down_shift(t_piece *piece,int boardsize)
-{
-	if (piece->lastrow - 1  >= boardsize) //piece reached last row
-		return (-1);
-	piece->firstrow += 1;
-	piece->lastrow += 1;
+	i = -1;
+	while (++i < 4)
+		board->bin_board[piece->firstrow + i] =
+		board->bin_board[piece->firstrow + i] ^ piece->placed[i];
 	return (1);
 }
 
-int		right_shift(t_piece *piece,int boardsize)
+int					piece_shift(t_piece *piece, int boardsize)
 {
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		piece->placed[i] =	piece->placed[i] >> 1;
-		if (on_bit(piece->placed[i], boardsize) == 1) //piece cross width boundry
-		{
-			piece_reset(piece, 0); //reset column but not rows
-			return (-1);
-		}
-		++i;
-	}
-	return (1);
-}
-
-
-
-int		piece_shift(t_piece *piece, int boardsize)
-{
-	if ((right_shift(piece, boardsize) == -1) && (down_shift(piece, boardsize) == -1))
+	if ((right_shift(piece, boardsize) == -1) &&
+		(down_shift(piece, boardsize) == -1))
 	{
 		piece_reset(piece, 1);
 		return (-1);
@@ -82,25 +27,25 @@ int		piece_shift(t_piece *piece, int boardsize)
 	return (1);
 }
 
-int		set_piece(t_piece *piece,t_board  *board,int  boardsize)
+int					set_piece(t_piece *piece, t_board *board, int boardsize)
 {
-	int shifted;
-	int i;
+	int	shifted;
+	int	i;
 
 	shifted = 1;
 	while (shifted != -1)
 	{
 		i = 0;
-		while (i < 4 && ((board->bin_board[piece->firstrow + i] & piece->placed[i]) == 0))
-		{
+		while (i < 4 && ((board->bin_board[piece->firstrow + i] &
+			piece->placed[i]) == 0))
 			i++;
-		}
 		if (i == 4)
 		{
 			i = 0;
 			while (i < 4)
 			{
-				board->bin_board[piece->firstrow + i] = board->bin_board[piece->firstrow + i] | piece->placed[i];
+				board->bin_board[piece->firstrow + i] =
+				board->bin_board[piece->firstrow + i] | piece->placed[i];
 				++i;
 			}
 			return (1);
@@ -110,34 +55,41 @@ int		set_piece(t_piece *piece,t_board  *board,int  boardsize)
 	return (-1);
 }
 
-int		set_board(t_piece *pieces, int p, t_board *board, int *boardsize, int shiftback)
+int					reset_all(t_piece *pieces, t_board *board)
 {
-static int calls;
-calls++;
-printf("pp %i\n",p);
-printf("callllls %i\n", calls);
-	if (calls > 10000)
-		(*boardsize)++;
-	if (p > board->nbr_pieces + 1)
+	int i;
+
+	i = -1;
+	while (++i < board->boardsize)
+		board->bin_board[i] = 0;
+	i = -1;
+	while (++i < board->nbr_pieces)
+		piece_reset(&pieces[i], 1);
+	return (1);
+}
+
+int					set_board(t_piece *pieces, int p, t_board *board,
+		int shiftback)
+{
+	static int ss;
+printf("%i\n",ss++);
+	if (p > board->nbr_pieces)
+		return (100);
+	if (shiftback == 1)
 	{
-		return (1);
-	}
-	if (shiftback == 1) //last attemt of settng piece failed. Unset previous piece, shift, and re-set
-	{
-		if (p < 0) //cant fit first piece. start again with bigger board (room for increasing program speed by placing other conditionals here)
+		if (p < 0)
 		{
-			(*boardsize)++;
-printf("boardsize in stb %i\n",*boardsize);
-			return (set_board(pieces, 0, board, boardsize, 0));
+			reset_all(pieces, board);
+			return (0);
 		}
 		unset_piece(board, &pieces[p]);
-		if (piece_shift(&pieces[p], *boardsize) == 1)
-				return (set_board(pieces, p, board, boardsize, 0));
+		if (piece_shift(&pieces[p], board->boardsize) == 1)
+			return (set_board(pieces, p, board, 0));
 		else
-			return (set_board(pieces, --p, board, boardsize, 1));
+			return (set_board(pieces, --p, board, 1));
 	}
-	else if (set_piece(&pieces[p], board, *boardsize) == -1)	  // piece not set
-		return (set_board(pieces, --p, board, boardsize, 1)); // replace the previous piece 
+	else if (set_piece(&pieces[p], board, board->boardsize) == -1)
+		return (set_board(pieces, --p, board, 1));
 	else
-		return (set_board(pieces, ++p, board, boardsize, 0)); //piece set move on to next piece
+		return (++p);
 }

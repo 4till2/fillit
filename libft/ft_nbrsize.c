@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_nbrsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 12:50:55 by yserkez           #+#    #+#             */
-/*   Updated: 2018/10/29 21:40:21 by yserkez          ###   ########.fr       */
+/*   Created: 2018/10/27 12:41:52 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/27 13:10:45 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_memcmp(const void *s1, const void *s2, size_t n)
+unsigned int	ft_nbrsize(int n)
 {
-	const unsigned char	*ptr1;
-	const unsigned char *ptr2;
+	unsigned int size;
 
-	if (n == 0)
-		return (0);
-	ptr1 = (unsigned char*)s1;
-	ptr2 = (unsigned char*)s2;
-	while (--n > 0 && *ptr1 == *ptr2)
+	size = 1;
+	n *= (n < 0 ? -1 : 1);
+	while (n >= 10)
 	{
-		ptr1++;
-		ptr2++;
+		n /= 10;
+		++size;
 	}
-	return ((int)(*ptr1 - *ptr2));
+	return (size);
 }

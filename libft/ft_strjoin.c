@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 16:24:28 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/26 17:27:43 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/26 11:15:37 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 11:41:11 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,24 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
+	int		len;
 	int		i;
-	int		j;
-	char	*str;
+	char	*ret;
 
-	i = 0;
-	j = 0;
-	str = NULL;
-	if (!(str = (char *)malloc(sizeof(char) * ((s1 != NULL) ? (ft_strlen(s1)) :
-		(0)) + ((s2 != NULL) ? (ft_strlen(s2)) : (0)) + 2)))
+	if (!s1 || !s2)
 		return (NULL);
-	while (s1 != NULL && s1[i])
+	len = ft_strlen((char*)s1) + ft_strlen((char*)s2);
+	i = 0;
+	if (!(ret = (char*)malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	len = 0;
+	while (s1[len])
 	{
-		str[i] = s1[i];
-		i++;
+		ret[len] = (char)s1[len];
+		len++;
 	}
-	while (s2 != NULL && s2[j])
-	{
-		str[i] = s2[j];
-		j++;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	while (s2[i])
+		ret[len++] = (char)s2[i++];
+	ret[len] = '\0';
+	return (ret);
 }

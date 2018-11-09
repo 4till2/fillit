@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccodiga <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/25 10:13:47 by ccodiga           #+#    #+#             */
-/*   Updated: 2018/10/25 10:16:54 by ccodiga          ###   ########.fr       */
+/*   Created: 2018/10/30 11:43:37 by yserkez           #+#    #+#             */
+/*   Updated: 2018/10/30 11:43:39 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	ft_putendl(char const *s)
 {
-	int i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	write(1, s, i);
-	write(1, "\n", 1);
+	if (s)
+	{
+		ft_putstr((char*)s);
+		ft_putchar('\n');
+	}
 }
