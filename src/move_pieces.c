@@ -59,48 +59,40 @@ void	set_pieces_to_left(t_piece *pieces, t_board *board)
 	}
 }
 
-int		piece_reset(t_piece **piece, int p,  int full)
+int		piece_reset(t_piece *piece, int full)
 {
-	t_piece *ptr;
-
-	ptr = *piece;
-	ptr[p].placed[3] = ptr[p].origin[3];
-	ptr[p].placed[2] = ptr[p].origin[2];
-	ptr[p].placed[1] = ptr[p].origin[1];
-	ptr[p].placed[0] = ptr[p].origin[0];
+	piece->placed[3] = piece->origin[3];
+	piece->placed[2] = piece->origin[2];
+	piece->placed[1] = piece->origin[1];
+	piece->placed[0] = piece->origin[0];
 	if (full == 1)
 	{
-		ptr[p].firstrow = 0;
-		ptr[p].lastrow = ptr[p].lastrow_origin;
+		piece->firstrow = 0;
+		piece->lastrow = piece->lastrow_origin;
 	}
 	return (1);
 }
 
-int		down_shift(t_piece **piece, int p, int boardsize)
+int		down_shift(t_piece *piece, int boardsize)
 {
-	t_piece	*ptr;
-
-	ptr = *piece;
-	if (ptr[p].lastrow + 1 >= boardsize)
+	if (piece->lastrow + 1 >= boardsize)
 		return (-1);
-	ptr[p].firstrow++;
-	ptr[p].lastrow++;
+	piece->firstrow++;
+	piece->lastrow++;
 	return (1);
 }
 
-int		right_shift(t_piece **piece, int p,  int boardsize)
+int		right_shift(t_piece *piece, int boardsize)
 {
 	int	i;
-	t_piece *ptr;
 
-	ptr = *piece;
 	i = -1;
 	while (++i < 4)
 	{
-		ptr[p].placed[i] = ptr[p].placed[i] >> 1;
-		if (on_bit(ptr[p].placed[i], boardsize) == 1)
+		piece->placed[i] = piece->placed[i] >> 1;
+		if (on_bit(piece->placed[i], boardsize) == 1)
 		{
-			piece_reset(piece, p, 0);
+			piece_reset(piece, 0);
 			return (-1);
 		}
 	}

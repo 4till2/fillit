@@ -6,7 +6,7 @@
 #    By: yserkez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/13 14:47:18 by yserkez           #+#    #+#              #
-#    Updated: 2018/11/07 01:04:39 by yserkez          ###   ########.fr        #
+#    Updated: 2018/11/08 17:08:00 by yserkez          ###   ########.fr        #
 #    Updated: 2018/10/22 12:49:58 by yserkez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -15,7 +15,7 @@ SRC = *.c
 OBJ = $(SRC:.c=.o)
 SRC_PATH = src/
 SRC_POS = $(addprefix $(SRC_PATH),$(SRC))
-FLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 LIB = libft/libft.a
 
 all: makelib $(NAME) clean

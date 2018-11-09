@@ -109,28 +109,36 @@ int			validate(char *file, t_piece *pieces, t_board *board)
 	int		col;
 	int		row;
 	int		ret_value;
+	int		count;
 
 	ret_value = 0;
 	row = 0;
 	fd = open(file, O_RDONLY);
-	while (get_next_line(fd, &line) > 0)
+	while ((ret_value = get_next_line(fd, &line)) > 0)
 	{
-		line = ft_strjoin(line, "\n");
+		(row % 5 == 0) ? (count = 0) : (0);
+		line = ft_strcat(line, "\n");
 		col = -1;
 		while (line[++col])
-		{
-			if ((line[col] == '.' || line[col] == '#') && col < 4)
+		{		
+			if (((line[0] == '\n' && row % 5 == 4) ||
+				(col == 4 && line[col] == '\n')) && row < 131)
+				++count;	
+			else if (((line[0] != '\n' && row % 5 == 4) ||
+				(col == 4 && line[col] != '\n')))
+				return (-1);
+			else if ((line[col] == '.' || line[col] == '#') && col < 4)
 				(line[col] == '#') ? (p_bin(col, row, pieces, board)) : (0);
-//?shouldnt it be line[col] and not line[0]?////////////////////////////////////////////////////////////////////////////////////////////////////////////////////?
-			else if ((!(line[0] == '\n' && row % 5 == 4) &&
-				!(col == 4 && line[col] == '\n')) || row >= 131)
+			else
 				return (-1);
 		}
 		free(line);
 		row++;
 	}
+	if (count < 4 || count >= 5)
+		return (-1);
 	close(fd);
-	return (ret_value);
+	return (0);
 }
 
 /*

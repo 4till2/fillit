@@ -6,7 +6,7 @@
 /*   By: yserkez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/30 11:49:01 by yserkez           #+#    #+#             */
-/*   Updated: 2018/11/06 23:25:17 by yserkez          ###   ########.fr       */
+/*   Updated: 2018/11/07 16:40:54 by yserkez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <string.h>
-# include <unistd.h>
 # include <sys/types.h>
-# include <sys/uio.h>
-# define BUFF_SIZE 1
+# include <sys/uio.h> 
+# include <unistd.h>
 
 typedef struct		s_list
 {
@@ -25,7 +24,9 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+# define BUFF_SIZE 1
 
+char				*ft_itoa_base(int n, int base);
 long long			ft_sqrt(long long n);
 int					get_next_line(const int fd, char **line);
 t_list				*ft_lstnew(void const *content, size_t content_size);
@@ -34,7 +35,6 @@ void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
-char				*ft_itoa_base(int n, int base);
 int					ft_countdigits(long long nb, unsigned int base);
 unsigned	int		ft_nbrsize(int n);
 int					ft_iswhite(char const c);
