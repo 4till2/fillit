@@ -1,5 +1,5 @@
 # 42_Fillit
-A program to find the smallest square possible with a list of given Tetriminos.
+A program to find the smallest square possible with a list of given Tetriminos in C.
 
 ## Description
 The program takes a file as parameter, which contains a list of Tetriminos, and arranges them
