@@ -1,5 +1,5 @@
 # 42_Fillit
-A re-implementation of the unix "ls" command implemented in C.
+A program to find the smallest square possible with a list of given Tetriminos.
 
 ## Description
 The program takes a file as parameter, which contains a list of Tetriminos, and arranges them
@@ -12,10 +12,10 @@ If the number of parameters sent to the executable is not 1, the program display
 its usage and exits properly. If a Tetrimino is invalid the program displays error and exits properly. 
 
 The description of a Tetriminos must respect the following rules :
-• Precisely 4 lines of 4 characters, each followed by a new line (well... a 4x4 square).
-• A Tetrimino is a classic piece of Tetris composed of 4 blocks.
-• Each character must be either a block character(’#’ ) or an empty character (’.’).
-• Each block of a Tetrimino must touch at least one other block on any of his 4 sides
+- Precisely 4 lines of 4 characters, each followed by a new line (well... a 4x4 square).
+- A Tetrimino is a classic piece of Tetris composed of 4 blocks.
+- Each character must be either a block character(’#’ ) or an empty character (’.’).
+- Each block of a Tetrimino must touch at least one other block on any of his 4 sides
 (up, down, left and right).
 
 A few examples of valid descriptions of Tetriminos:
