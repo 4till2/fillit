@@ -25,7 +25,7 @@ A few examples of valid descriptions of Tetriminos:
 ..#. ..## .... ##.. .... ##.. .... #... ..#.
 ..#. ..## .... ##.. .... .... .... #... ..#.
 ```
-A few examples of invalid descriptions of Tetriminos
+A few examples of invalid descriptions of Tetriminos:
 ```
 #### ...# ##... #.   .... ..## #### ,,,, .HH.
 ...# ..#. ##... ##   .... .... #### #### HH..
@@ -36,20 +36,21 @@ Because each Tetrimino fills only 4 of the 16 available boxes, it is possible to
 the same Tetrimino in multiple ways. However, a rotated Tetrimino describes a different
 Tetrimino from the original, in the case of this project. This means no rotation is possible
 on a Tetrimino, when you will arrange it with the others.
-Those Tetriminos are then perfectly equivalents on every aspect :
+These Tetriminos are then perfectly equivalents on every aspect:
 ```
 ##.. .##. ..## .... .... ....
 #... .#.. ..#. ##.. .##. ..##
 #... .#.. ..#. #... .#.. ..#.
 .... .... .... #... .#.. ..#.
 ```
-These 5 Tetriminos are, for their part, 5 distincts Tetriminos on every aspect :
+These 5 Tetriminos are, for their part, 5 distinct Tetriminos on every aspect :
 ```
 ##.. .### .... .... ....
 #... ...# ...# .... .##.
 #... .... ...# #... .##.
 .... .... ..## ###. ....
 ```
+
 Sample Usage:
 ```
 $> cat sample.fillit | cat -e
@@ -79,6 +80,7 @@ CCCA$
 BBBB$
 $>
 ```
+
 For a more thorough description and list of requirements (such as allowed functions) look at "fillit.en.pdf".
 
 ### Functionality
